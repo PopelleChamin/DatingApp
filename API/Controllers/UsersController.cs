@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-public class UsersController
+[Route("api/v1/[controller]")]
+public class UsersController : ControllerBase
 {
 
     private readonly DataContext _context;
@@ -21,9 +21,9 @@ public class UsersController
     public ActionResult<IEnumerable<AppUser>> GetUsers(){
         var users= _context.Users.ToList();
 
-        return users;
+        return Ok(users);
     }
-    [HttpGet("{id}")]
+    [HttpGet("{id}")] // api/v1/users/2
     public ActionResult<AppUser> GetUsersById(int id){
 
         var user= _context.Users.Find(id);
