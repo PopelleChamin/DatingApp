@@ -22,10 +22,11 @@
         }
 
         @if (loggedIn) {
-          <div class="dropdown">
-            <a class="dropdown-toogle text-light">Welcome User</a>
-            <div class="dropdown-menu">
+          <div dropdown class="dropdown">
+            <a dropdownToggle class="dropdown-toogle text-light text-decoration-none">Welcome User</a>
+            <div *bsDropdownMenu class="dropdown-menu">
               <a class="dropdown-item">Profile</a>
+              <div class="dropdown-divider"></div>
               <a class="dropdown-item" (click)="logout()">Logout</a>
             </div>
           </div>
