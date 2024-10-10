@@ -1,3 +1,4 @@
+namespace API.Controllers;
 using System.Security.Cryptography;
 using System.Text;
 using API.Data;
@@ -7,21 +8,23 @@ using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers;
 public class AccountController(
     DataContext context,
-    ITokenService tokenService): BaseApiController
+    ITokenService tokenService) : BaseApiController
 {
     [HttpPost("register")]
-    public async Task<ActionResult<UserResponse>> RegisterAsync(RegisteRequest request){
+    public async Task<ActionResult<UserResponse>> RegisterAsync(RegisteRequest request)
+    {
 
-        if(await UserExistsAsync(request.Username)){ 
+        if (await UserExistsAsync(request.Username))
+        {
             return BadRequest("Username already in use");
         }
 
-        using var hmac= new HMACSHA512();
+        using var hmac = new HMACSHA512();
 
-        var user = new AppUser{
+        var user = new AppUser
+        {
             UserNane = request.Username,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password)),
             PasswordSalt = hmac.Key
@@ -29,30 +32,35 @@ public class AccountController(
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
-        return new UserResponse{
+        return new UserResponse
+        {
             Username = user.UserNane,
             Token = tokenService.CreateToken(user)
         };
     }
-    
     [HttpPost("login")]
-    public async Task<ActionResult<UserResponse>> LoginAsync(LoginRequest request){
+    public async Task<ActionResult<UserResponse>> LoginAsync(LoginRequest request)
+    {
         var user = await context.Users.FirstOrDefaultAsync(x =>
          x.UserNane.ToLower() == request.Username.ToLower());
 
-         if(user == null){
+        if (user == null)
+        {
             return Unauthorized("Invalid username or password");
-         }
+        }
 
-         using var hmac = new HMACSHA512(user.PasswordSalt);
-         var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password));
+        using var hmac = new HMACSHA512(user.PasswordSalt);
+        var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password));
 
-         for(int i =0; i < computeHash.Length;i++){
-            if(computeHash[i] != user.PasswordHash[i]){
+        for (var i = 0; i < computeHash.Length; i++)
+        {
+            if (computeHash[i] != user.PasswordHash[i])
+            {
                 return Unauthorized("Invalid username or password");
             }
-         }
-         return new UserResponse{
+        }
+        return new UserResponse
+        {
             Username = user.UserNane,
             Token = tokenService.CreateToken(user)
         };
