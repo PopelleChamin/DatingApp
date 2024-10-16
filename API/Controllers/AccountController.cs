@@ -21,22 +21,23 @@ public class AccountController(
             return BadRequest("Username already in use");
         }
 
-        using var hmac = new HMACSHA512();
+        return Ok();
 
-        var user = new AppUser
-        {
-            UserNane = request.Username,
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password)),
-            PasswordSalt = hmac.Key
-        };
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        //using var hmac = new HMACSHA512();
+        //var user = new AppUser
+        //{
+        //    UserNane = request.Username,
+        //    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password)),
+        //    PasswordSalt = hmac.Key
+        //};
+        //context.Users.Add(user);
+        //await context.SaveChangesAsync();
 
-        return new UserResponse
-        {
-            Username = user.UserNane,
-            Token = tokenService.CreateToken(user)
-        };
+        //return new UserResponse
+        //{
+        //    Username = user.UserNane,
+        //    Token = tokenService.CreateToken(user)
+        //};
     }
     [HttpPost("login")]
     public async Task<ActionResult<UserResponse>> LoginAsync(LoginRequest request)
