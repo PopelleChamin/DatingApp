@@ -10,7 +10,7 @@ public class AppUser
     public byte[] PasswordHash { get; set; } = [];
     public byte[] PasswordSalt { get; set; } = [];
     public DateOnly Birthday { get; set; }
-    public required string KnowAs { get; set; }
+    public required string KnownAs { get; set; }
     public DateTime Created { get; set; }
     public DateTime LastActive { get; set; }
     public required string Gender { get; set; }
