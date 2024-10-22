@@ -1,6 +1,5 @@
 namespace API.Controllers;
 using API.Data;
-using API.DataEntities;
 using API.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +28,7 @@ public class UsersController : BaseApiController
     }
 
     [HttpGet("{id:int}")] // api/users/2
-    public async Task<ActionResult<MemberResponse>> GetUsersByIdAsync(int id)
+    public async Task<ActionResult<MemberResponse>> GetByIdAsync(int id)
     {
 
         var user = await _repository.GetByIdAsync(id);
