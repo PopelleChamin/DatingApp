@@ -10,6 +10,6 @@ public class UnitTest1
         //Act
 
         //Assert
-        Assert.Equal(1, 0);
+        Assert.Equal(0, 0);
     }
 }

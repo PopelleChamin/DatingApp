@@ -66,7 +66,7 @@ public class APIWebApplicationFactory<IStartup> : WebApplicationFactory<Startup>
                     catch (Exception ex)
                     {
                         var logger = sp.GetRequiredService<ILogger<Program>>();
-                        logger.LogError(ex, "An error has occurred during migration/seeding.");
+                        logger.LogError(ex, "An error has occurred during migration/seeding.");
                     }
                 }
             });
