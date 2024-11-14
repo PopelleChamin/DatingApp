@@ -53,6 +53,7 @@ public class BuggyControllerTests
         Assert.Equal(expectedStatusCode, httpResponse.StatusCode.ToString());
     }
 
+
     [Theory]
     [InlineData("NotFound")]
     public async Task GetNotFoundShouldNotFound(string statusCode)
