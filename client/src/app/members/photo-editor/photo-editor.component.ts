@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, OnInit, output } from '@angular/core';
 import { Member } from '../../_models/member';
 import { DecimalPipe, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
@@ -14,7 +14,7 @@ import { Photo } from '../../_models/photo';
   templateUrl: './photo-editor.component.html',
   styleUrl: './photo-editor.component.css'
 })
-export class PhotoEditorComponent {
+export class PhotoEditorComponent implements OnInit{
   private accountService = inject(AccountService);
   private memberService = inject(MembersService);
 
@@ -63,7 +63,7 @@ export class PhotoEditorComponent {
 
   initializeUploader(){
     this.uploader =new FileUploader({
-      url: this.baseUrl + "user/photos",
+      url: this.baseUrl + "users/photo",
       authToken: "Bearer " + this.accountService.currentUser()?.token,
       isHTML5: true,
       allowedFileType: ["image"],
@@ -72,13 +72,13 @@ export class PhotoEditorComponent {
       maxFileSize: 10 * 1024 * 1024 
     });
 
-    this.uploader.onAfterAddingAll =(file) => {
+    this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false
     };
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       const photo = JSON.parse(response);
-      const updatedMember = {...this.member()};
+      const updatedMember = { ...this.member() };
       updatedMember.photos.push(photo);
       this.memberChange.emit(updatedMember);
     }
