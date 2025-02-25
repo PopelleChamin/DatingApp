@@ -2,14 +2,17 @@ namespace API.Controllers;
 using System.Security.Cryptography;
 using System.Text;
 using API.Data;
+using API.DataEntities;
 using API.DTOs;
 using API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 public class AccountController(
     DataContext context,
-    ITokenService tokenService) : BaseApiController
+    ITokenService tokenService,
+    IMapper mapper) : BaseApiController
 {
     [HttpPost("register")]
     public async Task<ActionResult<UserResponse>> RegisterAsync(RegisteRequest request)
@@ -20,29 +23,28 @@ public class AccountController(
             return BadRequest("Username already in use");
         }
 
-        return Ok();
+        using var hmac = new HMACSHA512();
+        var user = mapper.Map<AppUser>(request);
+        user.UserNane = request.Username;
+        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password));
+        user.PasswordSalt = hmac.Key;
 
-        //using var hmac = new HMACSHA512();
-        //var user = new AppUser
-        //{
-        //    UserNane = request.Username,
-        //    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password)),
-        //    PasswordSalt = hmac.Key
-        //};
-        //context.Users.Add(user);
-        //await context.SaveChangesAsync();
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
 
-        //return new UserResponse
-        //{
-        //    Username = user.UserNane,
-        //    Token = tokenService.CreateToken(user)
-        //};
+        return new UserResponse
+        {
+            Username = user.UserNane,
+            Token = tokenService.CreateToken(user),
+            KnownAs = user.KnownAs
+        };
     }
     [HttpPost("login")]
     public async Task<ActionResult<UserResponse>> LoginAsync(LoginRequest request)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x =>
-         x.UserNane.ToLower() == request.Username.ToLower());
+        var user = await context.Users
+        .Include(x => x.Photos)
+        .FirstOrDefaultAsync(x => x.UserNane.ToLower() == request.Username.ToLower());
 
         if (user == null)
         {
@@ -62,7 +64,9 @@ public class AccountController(
         return new UserResponse
         {
             Username = user.UserNane,
-            Token = tokenService.CreateToken(user)
+            KnownAs = user.KnownAs,
+            Token = tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url
         };
     }
 
