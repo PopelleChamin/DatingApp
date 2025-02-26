@@ -12,10 +12,10 @@ import { PaginatedResult } from '../_models/pagination';
 export class MembersService {
   private http = inject(HttpClient);
   baseUrl = environment.apiUrl;
-  //members = signal<Member[]>([]);
-  paginatedresult = signal<PaginatedResult<Member[]> | null>(null);
-  
-  getMembers(pageNumber?: number, pageSize?: number){
+  // members = signal<Member[]>([]);
+  paginatedResult = signal<PaginatedResult<Member[]> | null>(null);
+
+  getMembers(pageNumber?: number, pageSize?: number) {
     let params = new HttpParams();
 
     if (pageNumber && pageSize) {
@@ -23,10 +23,9 @@ export class MembersService {
       params = params.append("pageSize", pageSize);
     }
 
-    
-    return this.http.get<Member[]>(this.baseUrl + "users", {observe: "response", params }).subscribe({
+    return this.http.get<Member[]>(this.baseUrl + "users", { observe: "response", params }).subscribe({
       next: response => {
-        this.paginatedresult.set({
+        this.paginatedResult.set({
           items: response.body as Member[],
           pagination: JSON.parse(response.headers.get("Pagination")!)
         });
