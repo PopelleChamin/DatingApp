@@ -9,7 +9,7 @@ public class UserParams
         get => pageNumber;
         set => pageNumber = (value is < 1) ? 1 : value;
     }
-    private int pageSize = 10;
+    private int pageSize = 12;
     public int PageSize
     {
         get => pageSize;
