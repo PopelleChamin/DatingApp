@@ -1,14 +1,13 @@
 namespace API.Helpers;
 
-using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 
-public class PagedList<T> : List<T>  // where T : class
+public class PagedList<T> : List<T> // where T : class
 {
     public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
     {
         CurrentPage = pageNumber;
-        TotalPages = (int)Math.Ceiling(count / (double) pageSize);
+        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         PageSize = pageSize;
         TotalCount = count;
         AddRange(items);
