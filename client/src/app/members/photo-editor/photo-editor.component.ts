@@ -34,7 +34,7 @@ export class PhotoEditorComponent implements OnInit{
         const user = this.accountService.currentUser();
         if (user) {
           user.photoUrl = photo.url;
-          this.accountService.SetCurrentUser(user);
+          this.accountService.setCurrentUser(user);
         }
         const updatedMember = {...this.member()};
         updatedMember.photoUrl = photo.url;
@@ -85,7 +85,7 @@ export class PhotoEditorComponent implements OnInit{
         const user = this.accountService.currentUser();
         if (user) {
           user.photoUrl = photo.url;
-          this.accountService.SetCurrentUser(user);
+          this.accountService.setCurrentUser(user);
         }
         updatedMember.photoUrl = photo.url;
         updatedMember.photos.forEach(p => {
