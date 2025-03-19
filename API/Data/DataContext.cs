@@ -26,6 +26,16 @@ public class DataContext(DbContextOptions options) : DbContext(options)
             .HasForeignKey(f => f.TargetUserId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Entity<Message>()
+            .HasOne(s => s.Recipient)
+            .WithMany(m => m.MessagesRecieved)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Message>()
+            .HasOne(s => s.Sender)
+            .WithMany(m => m.MessagesSent)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }
 
