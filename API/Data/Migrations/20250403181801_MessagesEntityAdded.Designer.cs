@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250319213922_MessagesEntityAdded")]
+    [Migration("20250403181801_MessagesEntityAdded")]
     partial class MessagesEntityAdded
     {
         /// <inheritdoc />
@@ -119,7 +119,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Message");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("API.DataEntities.Photo", b =>
