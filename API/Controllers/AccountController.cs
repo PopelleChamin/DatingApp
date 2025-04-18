@@ -25,16 +25,14 @@ public class AccountController(
 
         using var hmac = new HMACSHA512();
         var user = mapper.Map<AppUser>(request);
-        user.UserNane = request.Username.ToLowerInvariant();
-         // user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password));
-         // user.PasswordSalt = hmac.Key;
-
+        user.UserName = request.Username.ToLowerInvariant();
+        
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
         return new UserResponse
         {
-            Username = user.UserNane,
+            Username = user.UserName,
             Token = tokenService.CreateToken(user),
             KnownAs = user.KnownAs,
             Gender = user.Gender
@@ -45,7 +43,7 @@ public class AccountController(
     {
         var user = await context.Users
         .Include(x => x.Photos)
-        .FirstOrDefaultAsync(x => x.UserNane.ToLowerInvariant() == request.Username.ToLowerInvariant());
+        .FirstOrDefaultAsync(x => x.UserName.ToLowerInvariant() == request.Username.ToLowerInvariant());
 
         if (user == null || user.UserName == null)
         {
@@ -53,7 +51,7 @@ public class AccountController(
         }
         return new UserResponse
         {
-            Username = user.UserNane,
+            Username = user.UserName,
             KnownAs = user.KnownAs,
             Token = tokenService.CreateToken(user),
             Gender = user.Gender,

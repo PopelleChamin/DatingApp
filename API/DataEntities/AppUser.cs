@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 
 public class AppUser : IdentityUser<int>
 {
-    public required string UserNane { get; set; }
     public DateOnly Birthday { get; set; }
     public required string KnownAs { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;

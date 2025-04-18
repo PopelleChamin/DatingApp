@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250418030332_IdentityAdded")]
+    [Migration("20250418072113_IdentityAdded")]
     partial class IdentityAdded
     {
         /// <inheritdoc />
@@ -132,10 +132,6 @@ namespace API.Data.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserNane")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

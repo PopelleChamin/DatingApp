@@ -29,7 +29,7 @@ public class MessagesController
         var sender = await userRepository.GetByUsernameAsync(username);
         var recipient = await userRepository.GetByUsernameAsync(request.RecipientUsername);
 
-         if (recipient == null || sender == null || sender.UserNane == null || recipient.UserNane == null)
+         if (recipient == null || sender == null || sender.UserName == null || recipient.UserName == null)
         {
             return BadRequest("The message can't be sent right now");
         }
@@ -38,8 +38,8 @@ public class MessagesController
         {
             Sender = sender,
             Recipient = recipient,
-            SenderUsername = sender.UserNane,
-            RecipientUsername = recipient.UserNane,
+            SenderUsername = sender.UserName,
+            RecipientUsername = recipient.UserName,
             Content = request.Content
         };
 

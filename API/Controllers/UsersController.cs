@@ -104,7 +104,7 @@ public class UsersController : BaseApiController
         if(await _repository.SaveAllAsync())
         {
             return CreatedAtAction("GetByUsername",
-                new { username = user.UserNane }, _mapper.Map<PhotoResponse>(photo));
+                new { username = user.UserName }, _mapper.Map<PhotoResponse>(photo));
         }
 
         return BadRequest("Problem adding the photo");

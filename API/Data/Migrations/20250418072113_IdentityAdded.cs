@@ -39,6 +39,10 @@ namespace API.Data.Migrations
                 name: "PasswordSalt",
                 table: "Users");
 
+            migrationBuilder.DropColumn(
+                name: "UserNane",
+                table: "Users");
+
             migrationBuilder.RenameTable(
                 name: "Users",
                 newName: "AspNetUsers");
@@ -467,6 +471,13 @@ namespace API.Data.Migrations
                 type: "BLOB",
                 nullable: false,
                 defaultValue: new byte[0]);
+
+            migrationBuilder.AddColumn<string>(
+                name: "UserNane",
+                table: "Users",
+                type: "TEXT",
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Users",

@@ -25,11 +25,11 @@ public class MessageRepository(DataContext context, IMapper mapper) : IMessageRe
 
         query = messageParams.Container.ToLower(CultureInfo.InvariantCulture) switch
         {
-            "inbox" => query.Where(m => m.Recipient.UserNane == messageParams.Username
+            "inbox" => query.Where(m => m.Recipient.UserName == messageParams.Username
                  && !m.RecipientDeleted),
-             "outbox" => query.Where(m => m.Sender.UserNane == messageParams.Username
+             "outbox" => query.Where(m => m.Sender.UserName == messageParams.Username
                  && !m.SenderDeleted),
-            _ => query.Where(m => m.Recipient.UserNane == messageParams.Username
+            _ => query.Where(m => m.Recipient.UserName == messageParams.Username
                  && m.DateRead == null
                  && !m.RecipientDeleted)
         };
