@@ -49,7 +49,7 @@ export class MembersService {
   getMember(username: string){
     const member: Member = [...this.membersCache.values()]
       .reduce((arr,elem) => arr.concat(elem.body), [])
-      .find((m: Member) => m.userNane === username);
+      .find((m: Member) => m.UserName === username);
     if (member) return of(member);
 
     return this.http.get<Member>(this.baseUrl + "users/" + username);
@@ -59,7 +59,7 @@ export class MembersService {
     return this.http.put(this.baseUrl + "users", member).pipe(
     //  tap(() =>{
     //    this.members.update(members => 
-    //     members.map(m => m.userNane === member.userNane ? member : m)
+    //     members.map(m => m.UserName === member.UserName ? member : m)
     //    )
     //  })
     );

@@ -1,6 +1,6 @@
 [
     {
-        "UserNane": "Arenita",
+        "UserName": "Arenita",
         "Gender": "female",
         "BirthDay": "1956-07-22",
         "KnownAs": "Arenita",
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "UserNane": "Perlita",
+        "UserName": "Perlita",
         "Gender": "female",
         "BirthDay": "1995-10-12",
         "KnownAs": "Perlita",
@@ -38,7 +38,7 @@
         ]
     },
     {
-        "UserNane": "Marge",
+        "UserName": "Marge",
         "Gender": "female",
         "BirthDay": "1959-01-24",
         "KnownAs": "Marge",
@@ -57,7 +57,7 @@
         ]
     },
     {
-        "UserNane": "Karen",
+        "UserName": "Karen",
         "Gender": "female",
         "BirthDay": "1988-06-22",
         "KnownAs": "Karen",
@@ -76,7 +76,7 @@
         ]
     },
     {
-        "UserNane": "Lisa",
+        "UserName": "Lisa",
         "Gender": "female",
         "BirthDay": "1956-01-12",
         "KnownAs": "Lisa",
@@ -95,7 +95,7 @@
         ]
     },
     {
-        "UserNane": "Patricio",
+        "UserName": "Patricio",
         "Gender": "male",
         "BirthDay": "1950-02-07",
         "KnownAs": "Patricio",
@@ -114,7 +114,7 @@
         ]
     },
     {
-        "UserNane": "DonCangrejo",
+        "UserName": "DonCangrejo",
         "Gender": "male",
         "BirthDay": "1967-04-09",
         "KnownAs": "DonCangrejo",
@@ -133,7 +133,7 @@
         ]
     },
     {
-        "UserNane": "Bob",
+        "UserName": "Bob",
         "Gender": "male",
         "BirthDay": "1990-03-23",
         "KnownAs": "Bob",
@@ -152,7 +152,7 @@
         ]
     },
     {
-        "UserNane": "Plankton",
+        "UserName": "Plankton",
         "Gender": "male",
         "BirthDay": "1952-12-01",
         "KnownAs": "Plankton",
@@ -171,7 +171,7 @@
         ]
     },
     {
-        "UserNane": "Calamardo",
+        "UserName": "Calamardo",
         "Gender": "male",
         "BirthDay": "1978-03-20",
         "KnownAs": "Calamardo",

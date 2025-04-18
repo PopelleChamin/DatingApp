@@ -39,13 +39,18 @@ namespace API.Data.Migrations
                 name: "PasswordSalt",
                 table: "Users");
 
-            migrationBuilder.DropColumn(
-                name: "UserNane",
-                table: "Users");
-
             migrationBuilder.RenameTable(
                 name: "Users",
                 newName: "AspNetUsers");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "AspNetUsers",
+                type: "TEXT",
+                maxLength: 256,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "TEXT");
 
             migrationBuilder.AlterColumn<string>(
                 name: "PasswordHash",
@@ -134,13 +139,6 @@ namespace API.Data.Migrations
                 type: "INTEGER",
                 nullable: false,
                 defaultValue: false);
-
-            migrationBuilder.AddColumn<string>(
-                name: "UserName",
-                table: "AspNetUsers",
-                type: "TEXT",
-                maxLength: 256,
-                nullable: true);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_AspNetUsers",
@@ -447,13 +445,20 @@ namespace API.Data.Migrations
                 name: "TwoFactorEnabled",
                 table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "UserName",
-                table: "AspNetUsers");
-
             migrationBuilder.RenameTable(
                 name: "AspNetUsers",
                 newName: "Users");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "UserName",
+                table: "Users",
+                type: "TEXT",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "TEXT",
+                oldMaxLength: 256,
+                oldNullable: true);
 
             migrationBuilder.AlterColumn<byte[]>(
                 name: "PasswordHash",
@@ -471,13 +476,6 @@ namespace API.Data.Migrations
                 type: "BLOB",
                 nullable: false,
                 defaultValue: new byte[0]);
-
-            migrationBuilder.AddColumn<string>(
-                name: "UserNane",
-                table: "Users",
-                type: "TEXT",
-                nullable: false,
-                defaultValue: "");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Users",
