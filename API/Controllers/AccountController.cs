@@ -36,7 +36,8 @@ public class AccountController(
         {
             Username = user.UserNane,
             Token = tokenService.CreateToken(user),
-            KnownAs = user.KnownAs
+            KnownAs = user.KnownAs,
+            Gender = user.Gender
         };
     }
     [HttpPost("login")]
@@ -66,6 +67,7 @@ public class AccountController(
             Username = user.UserNane,
             KnownAs = user.KnownAs,
             Token = tokenService.CreateToken(user),
+            Gender = user.Gender,
             PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url
         };
     }
