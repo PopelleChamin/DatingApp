@@ -1,6 +1,7 @@
 namespace API;
 
 using API.Data;
+using API.DataEntities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 [ExcludeFromCodeCoverage]
 public class Program
@@ -22,11 +24,12 @@ public class Program
         try
         {
             var context = services.GetRequiredService<DataContext>();
-            // var userManager = services.GetRequiredService<UserManager<AppUser>>();
-            // var roleManger = services.GetRequiredService<RoleManager<AppRole>>();
+            var userManager = services.GetRequiredService<UserManager<AppUser>>();
+            var roleManger = services.GetRequiredService<RoleManager<AppRole>>();
 
             await context.Database.MigrateAsync();
-            await Seed.SeedUsersAsync(context); // (userManager, roleManger);
+            await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
+            await Seed.SeedUsersAsync(userManager, roleManger);
         }
         catch (Exception ex)
         {

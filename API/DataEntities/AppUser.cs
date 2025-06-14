@@ -1,11 +1,9 @@
 namespace API.DataEntities;
-public class AppUser
-{
-    public int Id { get; set; }
 
-    public required string UserNane { get; set; }
-    public byte[] PasswordHash { get; set; } = [];
-    public byte[] PasswordSalt { get; set; } = [];
+using Microsoft.AspNetCore.Identity;
+
+public class AppUser : IdentityUser<int>
+{
     public DateOnly Birthday { get; set; }
     public required string KnownAs { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;
@@ -21,5 +19,6 @@ public class AppUser
     public List<UserLike> LikedUsers { get; set; } = [];
     public List<Message> MessagesSent { get; set; } = [];
     public List<Message> MessagesRecieved { get; set; } = [];
+    public ICollection<AppUserRole> UserRoles { get; set; } = [];
 }
 

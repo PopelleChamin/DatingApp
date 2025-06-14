@@ -18,23 +18,21 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
                 .ToListAsync();
     public async Task<AppUser?> GetByIdAsync(int id)
         => await context.Users.FindAsync(id);
-                //.Include(u => u.Photos)
-                //.FirstOrDefaultAsync(u => u.Id == id);
     public async Task<AppUser?> GetByUsernameAsync(string username)
         => await context.Users
                 .Include(u => u.Photos)
-                .SingleOrDefaultAsync(u => u.UserNane == username);
+                .SingleOrDefaultAsync(u => u.UserName == username);
 
     public async Task<MemberResponse?> GetMemberAsync(string username)
         => await context.Users
-        .Include(u => u.Photos).Where(u => u.UserNane == username)
+        .Include(u => u.Photos).Where(u => u.UserName == username)
         .ProjectTo<MemberResponse>(mapper.ConfigurationProvider)
         .SingleOrDefaultAsync();
     public async Task<PagedList<MemberResponse>> GetMembersAsync(UserParams userParams)
     {
         var query = context.Users.AsQueryable();
 
-        query = query.Where(u => u.UserNane != userParams.CurrentUsername);
+        query = query.Where(u => u.UserName != userParams.CurrentUsername);
 
         if (userParams.Gender != null)
         {
@@ -59,8 +57,6 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
                     userParams.PageNumber,
                     userParams.PageSize);
     }
-    public async Task<bool> SaveAllAsync()
-        => await context.SaveChangesAsync() > 0;
     public void Update(AppUser user)
         => context.Entry(user).State = EntityState.Modified;
 }
