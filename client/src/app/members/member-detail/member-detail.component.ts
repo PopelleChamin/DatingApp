@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Member } from '../../_models/member';
 import { TabDirective, TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
@@ -10,6 +10,7 @@ import { MessagesService } from '../../_services/messages.service';
 import { Message } from '../../_models/message';
 import { PresenceService } from '../../_services/presence.service';
 import { AccountService } from '../../_services/account.service';
+import { HubConnectionState } from '@microsoft/signalr';
 
 @Component({
   selector: 'app-member-detail',
@@ -22,8 +23,9 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   @ViewChild("memberTabs", { static: true }) memberTabs?: TabsetComponent;
   
   private messagesService = inject(MessagesService);
-  private route = inject(ActivatedRoute);
   private accountService = inject(AccountService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   presenceService = inject(PresenceService);
   member: Member = {} as Member;
   images: GalleryItem[] = [];
@@ -40,6 +42,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.route.paramMap.subscribe({
+      next: _ => this.onRouteParamsChange()
+    })
+
     this.route.queryParams.subscribe({
       next: params => {
         params['tab'] && this.selectTab(params['tab'])
@@ -54,8 +60,24 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  onRouteParamsChange() {
+    const user = this.accountService.currentUser();
+    if (!user) return;
+    if (this.messagesService.hubConnection?.state === HubConnectionState.Connected
+        && this.activeTab?.heading === "Messages") {
+      this.messagesService.hubConnection.stop().then(() => {
+        this.messagesService.createHubConnection(user, this.member.UserName);
+      });
+    }
+  }
+
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tab: this.activeTab.heading },
+      queryParamsHandling: "merge"
+    });
     if (this.activeTab.heading === "Messages" && this.member) {
       const user = this.accountService.currentUser();
       if (!user) return;
