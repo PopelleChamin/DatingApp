@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250614201036_MessageGroupsAdded")]
+    partial class MessageGroupsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.14");
@@ -158,26 +161,6 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-             modelBuilder.Entity("API.DataEntities.Connection", b =>
-                {
-                    b.Property<string>("ConnectionId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MessageGroupName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ConnectionId");
-
-                    b.HasIndex("MessageGroupName");
-
-                    b.ToTable("Connections");
-                });
-
-
             modelBuilder.Entity("API.DataEntities.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -221,16 +204,6 @@ namespace API.Data.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("API.DataEntities.MessageGroup", b =>
-                {
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("API.DataEntities.Photo", b =>
@@ -377,13 +350,6 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
-             modelBuilder.Entity("API.DataEntities.Connection", b =>
-                {
-                    b.HasOne("API.DataEntities.MessageGroup", null)
-                        .WithMany("Connections")
-                        .HasForeignKey("MessageGroupName");
-                });
-
             modelBuilder.Entity("API.DataEntities.Message", b =>
                 {
                     b.HasOne("API.DataEntities.AppUser", "Recipient")
@@ -487,10 +453,6 @@ namespace API.Data.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("UserRoles");
-                });
-            modelBuilder.Entity("API.DataEntities.MessageGroup", b =>
-                {
-                    b.Navigation("Connections");
                 });
 #pragma warning restore 612, 618
         }
