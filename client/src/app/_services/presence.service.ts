@@ -29,11 +29,20 @@ export class PresenceService {
     this.hubConnection.on("UserIsOnline", username => {
       this.toastr.info(username + " is online!");
     });
+
     this.hubConnection.on("UserIsOffline", username => {
-      this.toastr.warning(username + " went out to touch some grass!")
+      this.toastr.warning(username + " went out to touch some grass!");
     });
+
     this.hubConnection.on("GetOnlineUsers", usernames => {
-      this.onlineUsers.set(usernames)
+      this.onlineUsers.set(usernames);
+    });
+    
+    this.hubConnection.on("NewMessageReceived", ({ username, knownAs }) => {
+      this.toastr.info(knownAs + " sent you a message! Click me!")
+        .onTap
+        .pipe(take(1))
+        .subscribe(() => this.router.navigateByUrl("/members/" + username + "?tab=Messages"));
     });
   }
 
