@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250614201036_MessageGroupsAdded")]
+    [Migration("20250614205925_MessageGroupsAdded")]
     partial class MessageGroupsAdded
     {
         /// <inheritdoc />
@@ -161,6 +161,25 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("API.DataEntities.Connection", b =>
+                {
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MessageGroupName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ConnectionId");
+
+                    b.HasIndex("MessageGroupName");
+
+                    b.ToTable("Connections");
+                });
+
             modelBuilder.Entity("API.DataEntities.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -204,6 +223,16 @@ namespace API.Data.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("API.DataEntities.MessageGroup", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("MessageGroups");
                 });
 
             modelBuilder.Entity("API.DataEntities.Photo", b =>
@@ -350,6 +379,13 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API.DataEntities.Connection", b =>
+                {
+                    b.HasOne("API.DataEntities.MessageGroup", null)
+                        .WithMany("Connections")
+                        .HasForeignKey("MessageGroupName");
+                });
+
             modelBuilder.Entity("API.DataEntities.Message", b =>
                 {
                     b.HasOne("API.DataEntities.AppUser", "Recipient")
@@ -453,6 +489,11 @@ namespace API.Data.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("API.DataEntities.MessageGroup", b =>
+                {
+                    b.Navigation("Connections");
                 });
 #pragma warning restore 612, 618
         }

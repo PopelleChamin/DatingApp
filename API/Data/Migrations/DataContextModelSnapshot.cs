@@ -158,7 +158,7 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-             modelBuilder.Entity("API.DataEntities.Connection", b =>
+            modelBuilder.Entity("API.DataEntities.Connection", b =>
                 {
                     b.Property<string>("ConnectionId")
                         .HasColumnType("TEXT");
@@ -176,7 +176,6 @@ namespace API.Data.Migrations
 
                     b.ToTable("Connections");
                 });
-
 
             modelBuilder.Entity("API.DataEntities.Message", b =>
                 {
@@ -377,7 +376,7 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
-             modelBuilder.Entity("API.DataEntities.Connection", b =>
+            modelBuilder.Entity("API.DataEntities.Connection", b =>
                 {
                     b.HasOne("API.DataEntities.MessageGroup", null)
                         .WithMany("Connections")
@@ -488,6 +487,7 @@ namespace API.Data.Migrations
 
                     b.Navigation("UserRoles");
                 });
+
             modelBuilder.Entity("API.DataEntities.MessageGroup", b =>
                 {
                     b.Navigation("Connections");
